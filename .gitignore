@@ -10,6 +10,11 @@ dist/
 .env.*
 !.env.example
 
+# Setup instructions (may contain sensitive info)
+RSVP_SETUP_INSTRUCTIONS.txt
+*_INSTRUCTIONS.txt
+*_SETUP.txt
+
 # Editor directories
 .vscode/*
 !.vscode/extensions.json

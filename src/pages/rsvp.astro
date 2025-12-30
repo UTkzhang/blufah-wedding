@@ -705,16 +705,19 @@ import zh from '../i18n/zh.json';
   }
 </style>
 
-<script>
+<script define:vars={{
+  appsScriptUrl: import.meta.env.PUBLIC_APPS_SCRIPT_URL || '',
+  googleFormUrl: import.meta.env.PUBLIC_GOOGLE_FORM_URL || ''
+}}>
   // ============================================================================
-  // CONFIGURATION - Replace these with your actual URLs
-  // See RSVP_SETUP_INSTRUCTIONS.txt for setup guide
+  // CONFIGURATION - Set via environment variables
+  // See .env.example for setup guide
   // ============================================================================
-  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
-  const GOOGLE_FORM_URL = 'YOUR_GOOGLE_FORM_URL';
+  const APPS_SCRIPT_URL = appsScriptUrl;
+  const GOOGLE_FORM_URL = googleFormUrl;
 
-  // Demo mode - set to false after configuring real URLs
-  const DEMO_MODE = APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL';
+  // Demo mode - enabled when env vars not set
+  const DEMO_MODE = !APPS_SCRIPT_URL;
 
   interface GuestData {
     name: string;
