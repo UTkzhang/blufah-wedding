@@ -1,6 +1,7 @@
 ---
 import en from '../i18n/en.json';
 import zh from '../i18n/zh.json';
+const base = import.meta.env.BASE_URL;
 ---
 
 <footer class="footer">
@@ -22,22 +23,22 @@ import zh from '../i18n/zh.json';
     </p>
 
     <nav class="footer-nav">
-      <a href="/" class="footer-link">
+      <a href={base} class="footer-link">
         <span data-lang-en>Home</span>
         <span data-lang-zh style="display: none;">首页</span>
       </a>
       <span class="footer-divider">·</span>
-      <a href="/story" class="footer-link">
+      <a href={`${base}story`} class="footer-link">
         <span data-lang-en>{en.nav.story}</span>
         <span data-lang-zh style="display: none;">{zh.nav.story}</span>
       </a>
       <span class="footer-divider">·</span>
-      <a href="/details" class="footer-link">
+      <a href={`${base}details`} class="footer-link">
         <span data-lang-en>{en.nav.details}</span>
         <span data-lang-zh style="display: none;">{zh.nav.details}</span>
       </a>
       <span class="footer-divider">·</span>
-      <a href="/rsvp" class="footer-link">
+      <a href={`${base}rsvp`} class="footer-link">
         <span data-lang-en>{en.nav.rsvp}</span>
         <span data-lang-zh style="display: none;">{zh.nav.rsvp}</span>
       </a>

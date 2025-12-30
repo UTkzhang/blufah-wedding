@@ -4,6 +4,7 @@ import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import en from '../i18n/en.json';
 import zh from '../i18n/zh.json';
+const base = import.meta.env.BASE_URL;
 ---
 
 <Layout title="RSVP | Kevin & Sophie">
@@ -13,7 +14,7 @@ import zh from '../i18n/zh.json';
       <div class="container">
         <div class="rsvp-wrapper">
           <!-- Left Side - Decorative -->
-          <div class="rsvp-decoration" data-animate="left">
+          <div class="rsvp-decoration" data-animate="left" style={`--bg-image: url('${base}images/extra1.jpg');`}>
             <div class="decoration-content">
               <span class="decoration-icon">♡</span>
               <h2 class="decoration-title">
@@ -248,7 +249,7 @@ import zh from '../i18n/zh.json';
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('/images/extra1.jpg');
+    background-image: var(--bg-image);
     background-size: cover;
     background-position: center;
     opacity: 0.4;

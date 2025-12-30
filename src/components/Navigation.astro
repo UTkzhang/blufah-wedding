@@ -7,11 +7,12 @@ interface Props {
 }
 
 const { currentPage = 'home' } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
 <nav class="nav">
   <div class="nav-container">
-    <a href="/" class="nav-logo">
+    <a href={base} class="nav-logo">
       <span>K & S</span>
     </a>
 
@@ -21,25 +22,25 @@ const { currentPage = 'home' } = Astro.props;
 
     <ul class="nav-links">
       <li>
-        <a href="/" class:list={["nav-link", "link-underline", { active: currentPage === 'home' }]}>
+        <a href={base} class:list={["nav-link", "link-underline", { active: currentPage === 'home' }]}>
           <span data-lang-en>Home</span>
           <span data-lang-zh style="display: none;">首页</span>
         </a>
       </li>
       <li>
-        <a href="/story" class:list={["nav-link", "link-underline", { active: currentPage === 'story' }]}>
+        <a href={`${base}story`} class:list={["nav-link", "link-underline", { active: currentPage === 'story' }]}>
           <span data-lang-en>{en.nav.story}</span>
           <span data-lang-zh style="display: none;">{zh.nav.story}</span>
         </a>
       </li>
       <li>
-        <a href="/details" class:list={["nav-link", "link-underline", { active: currentPage === 'details' }]}>
+        <a href={`${base}details`} class:list={["nav-link", "link-underline", { active: currentPage === 'details' }]}>
           <span data-lang-en>{en.nav.details}</span>
           <span data-lang-zh style="display: none;">{zh.nav.details}</span>
         </a>
       </li>
       <li>
-        <a href="/rsvp" class:list={["nav-link", "nav-cta", { active: currentPage === 'rsvp' }]}>
+        <a href={`${base}rsvp`} class:list={["nav-link", "nav-cta", { active: currentPage === 'rsvp' }]}>
           <span data-lang-en>{en.nav.rsvp}</span>
           <span data-lang-zh style="display: none;">{zh.nav.rsvp}</span>
         </a>
@@ -117,13 +118,13 @@ const { currentPage = 'home' } = Astro.props;
   }
 
   /* Minecraft easter egg on Story link */
-  .nav-link[href="/story"]::before {
+  .nav-link[href$="story"]::before {
     content: '';
     margin-right: 0;
     transition: all var(--transition-fast);
   }
 
-  .nav-link[href="/story"]:hover::before {
+  .nav-link[href$="story"]:hover::before {
     content: '⛏ ';
     margin-right: var(--space-1);
   }
