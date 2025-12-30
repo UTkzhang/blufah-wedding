@@ -1,0 +1,697 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+
+const mapsLink = "https://www.google.com/maps/dir/?api=1&destination=Spencer's+at+the+Waterfront,+1340+Lakeshore+Rd,+Burlington,+ON";
+---
+
+<Layout title="Wedding Day | Kevin & Sophie">
+  <Navigation currentPage="details" />
+  <main class="page-content">
+    <!-- Page Header -->
+    <section class="page-hero">
+      <div class="container">
+        <h1 class="page-title animate-fade-in">
+          <span data-lang-en>Wedding Day</span>
+          <span data-lang-zh style="display: none;">婚礼日</span>
+        </h1>
+        <p class="page-subtitle animate-fade-in" style="animation-delay: 0.2s;">
+          <span data-lang-en>Everything you need to know</span>
+          <span data-lang-zh style="display: none;">您需要知道的一切</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- Event Details Section -->
+    <section class="section" id="event">
+      <div class="container">
+        <div class="details-grid">
+          <div class="detail-card" data-animate>
+            <div class="detail-icon">💍</div>
+            <h3 class="detail-title">
+              <span data-lang-en>{en.details.ceremony.title}</span>
+              <span data-lang-zh style="display: none;">{zh.details.ceremony.title}</span>
+            </h3>
+            <p class="detail-date">
+              <span data-lang-en>{en.details.ceremony.date}</span>
+              <span data-lang-zh style="display: none;">{zh.details.ceremony.date}</span>
+            </p>
+            <p class="detail-time">
+              <span data-lang-en>{en.details.ceremony.time}</span>
+              <span data-lang-zh style="display: none;">{zh.details.ceremony.time}</span>
+            </p>
+            <p class="detail-joke">
+              <span data-lang-en>{en.details.ceremony.joke}</span>
+              <span data-lang-zh style="display: none;">{zh.details.ceremony.joke}</span>
+            </p>
+          </div>
+
+          <a href={mapsLink} target="_blank" rel="noopener noreferrer" class="detail-card detail-card-link card-hover" data-animate style="animation-delay: 0.1s;">
+            <div class="detail-icon">📍</div>
+            <h3 class="detail-title">
+              <span data-lang-en>Venue</span>
+              <span data-lang-zh style="display: none;">场地</span>
+            </h3>
+            <p class="detail-venue">{en.details.ceremony.venue}</p>
+            <p class="detail-address">{en.details.ceremony.address}</p>
+            <span class="detail-map-link">
+              <span data-lang-en>Get Directions &#8599;</span>
+              <span data-lang-zh style="display: none;">获取路线 &#8599;</span>
+            </span>
+          </a>
+
+          <div class="detail-card" data-animate style="animation-delay: 0.2s;">
+            <div class="detail-icon">👔</div>
+            <h3 class="detail-title">
+              <span data-lang-en>{en.details.dresscode.title}</span>
+              <span data-lang-zh style="display: none;">{zh.details.dresscode.title}</span>
+            </h3>
+            <p class="detail-text">
+              <span data-lang-en>{en.details.dresscode.text}</span>
+              <span data-lang-zh style="display: none;">{zh.details.dresscode.text}</span>
+            </p>
+            <div class="color-swatches">
+              <span class="swatch" style="background-color: #2C2C2C;" title="Black"></span>
+              <span class="swatch" style="background-color: #1a365d;" title="Navy"></span>
+              <span class="swatch" style="background-color: #5a4a42;" title="Taupe"></span>
+              <span class="swatch" style="background-color: #722F37;" title="Burgundy"></span>
+              <span class="swatch" style="background-color: #7D9082;" title="Sage"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Travel Section -->
+    <section class="section section-ivory" id="travel">
+      <div class="container">
+        <h2 class="section-title" data-animate>
+          <span data-lang-en>{en.travel.title}</span>
+          <span data-lang-zh style="display: none;">{zh.travel.title}</span>
+        </h2>
+        <p class="section-subtitle" data-animate>
+          <span data-lang-en>{en.travel.subtitle}</span>
+          <span data-lang-zh style="display: none;">{zh.travel.subtitle}</span>
+        </p>
+
+        <!-- Hotels Section -->
+        <div class="hotels-section" data-animate>
+          <h3 class="travel-section-title">
+            <span class="travel-icon">🏨</span>
+            <span data-lang-en>{en.travel.hotels.title}</span>
+            <span data-lang-zh style="display: none;">{zh.travel.hotels.title}</span>
+          </h3>
+          <div class="hotels-grid">
+            {en.travel.hotels.list.map((hotel, index) => (
+              <article class={`hotel-card ${hotel.recommended ? 'hotel-recommended' : ''}`}>
+                {hotel.recommended && <span class="hotel-star">★</span>}
+                <h4 class="hotel-name">{hotel.name}</h4>
+                <p class="hotel-address">{hotel.address}</p>
+                <p class="hotel-distance">
+                  <span data-lang-en>{hotel.distance}</span>
+                  <span data-lang-zh style="display: none;">{zh.travel.hotels.list[index].distance}</span>
+                </p>
+                <p class="hotel-note">
+                  <span data-lang-en>{hotel.note}</span>
+                  <span data-lang-zh style="display: none;">{zh.travel.hotels.list[index].note}</span>
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <!-- Getting Here Section -->
+        <div class="getting-here-section" data-animate style="animation-delay: 0.1s;">
+          <h3 class="travel-section-title">
+            <span data-lang-en>{en.travel.gettingHere.title}</span>
+            <span data-lang-zh style="display: none;">{zh.travel.gettingHere.title}</span>
+          </h3>
+          <div class="getting-here-grid">
+            <div class="info-card">
+              <span class="info-icon">✈️</span>
+              <h4 class="info-title">
+                <span data-lang-en>{en.travel.gettingHere.byAir.title}</span>
+                <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byAir.title}</span>
+              </h4>
+              <ul class="info-list">
+                {en.travel.gettingHere.byAir.items.map((item, index) => (
+                  <li>
+                    <span class="info-location">
+                      <span data-lang-en>{item}</span>
+                      <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byAir.items[index]}</span>
+                    </span>
+                    <span class="info-time">
+                      <span data-lang-en>{en.travel.gettingHere.byAir.times[index]}</span>
+                      <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byAir.times[index]}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <span class="info-icon">🚂</span>
+              <h4 class="info-title">
+                <span data-lang-en>{en.travel.gettingHere.byTrain.title}</span>
+                <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byTrain.title}</span>
+              </h4>
+              <ul class="info-list">
+                {en.travel.gettingHere.byTrain.items.map((item, index) => (
+                  <li>
+                    <span class="info-location">
+                      <span data-lang-en>{item}</span>
+                      <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byTrain.items[index]}</span>
+                    </span>
+                    <span class="info-time">
+                      <span data-lang-en>{en.travel.gettingHere.byTrain.times[index]}</span>
+                      <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byTrain.times[index]}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="info-card">
+              <span class="info-icon">🚗</span>
+              <h4 class="info-title">
+                <span data-lang-en>{en.travel.gettingHere.byCar.title}</span>
+                <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byCar.title}</span>
+              </h4>
+              <p class="info-address">
+                {en.travel.gettingHere.byCar.address}
+              </p>
+              <p class="info-text">
+                <span data-lang-en>{en.travel.gettingHere.byCar.parking}</span>
+                <span data-lang-zh style="display: none;">{zh.travel.gettingHere.byCar.parking}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gifts Section -->
+    <section class="section" id="gifts">
+      <div class="container container-narrow">
+        <h2 class="section-title" data-animate>
+          <span data-lang-en>{en.gifts.title}</span>
+          <span data-lang-zh style="display: none;">{zh.gifts.title}</span>
+        </h2>
+        <p class="section-subtitle" data-animate>
+          <span data-lang-en>{en.gifts.subtitle}</span>
+          <span data-lang-zh style="display: none;">{zh.gifts.subtitle}</span>
+        </p>
+
+        <div class="gifts-content" data-animate>
+          <p class="gifts-message">
+            <span data-lang-en>{en.gifts.message}</span>
+            <span data-lang-zh style="display: none;">{zh.gifts.message}</span>
+          </p>
+
+          <div class="gift-options">
+            <div class="gift-card">
+              <span class="gift-icon">♡</span>
+              <h4 class="gift-title">
+                <span data-lang-en>Cash & Cards</span>
+                <span data-lang-zh style="display: none;">现金和刷卡</span>
+              </h4>
+              <p class="gift-text">
+                <span data-lang-en>{en.gifts.options.cash}</span>
+                <span data-lang-zh style="display: none;">{zh.gifts.options.cash}</span>
+              </p>
+            </div>
+
+            <div class="gift-card">
+              <span class="gift-icon">@</span>
+              <h4 class="gift-title">
+                <span data-lang-en>{en.gifts.options.etransfer}</span>
+                <span data-lang-zh style="display: none;">{zh.gifts.options.etransfer}</span>
+              </h4>
+              <p class="gift-text">
+                <span data-lang-en>Please include a brief note in the memo</span>
+                <span data-lang-zh style="display: none;">请在备注中留言</span>
+              </p>
+              <div class="gift-email-row">
+                <span class="gift-email">{en.gifts.options.etransferEmail}</span>
+                <button class="copy-icon-btn" data-email={en.gifts.options.etransferEmail} title="Copy email">
+                  <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <svg class="copied-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: none;">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <p class="gifts-thankyou">
+            <span data-lang-en>{en.gifts.thankyou}</span>
+            <span data-lang-zh style="display: none;">{zh.gifts.thankyou}</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section section-ivory">
+      <div class="container text-center">
+        <p class="cta-text" data-animate>
+          <span data-lang-en>We can't wait to celebrate with you!</span>
+          <span data-lang-zh style="display: none;">期待与您共同庆祝！</span>
+        </p>
+        <a href="/rsvp" class="btn btn-primary" data-animate>
+          <span data-lang-en>RSVP Now</span>
+          <span data-lang-zh style="display: none;">立即回复</span>
+        </a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .page-hero {
+    padding-top: calc(80px + var(--space-16));
+    padding-bottom: var(--space-12);
+    background-color: var(--color-ivory);
+    text-align: center;
+  }
+
+  .page-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-5xl);
+    font-weight: 400;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-4);
+  }
+
+  .page-subtitle {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-style: italic;
+    color: var(--color-gray);
+  }
+
+  /* Details Grid */
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-12);
+  }
+
+  .detail-card {
+    background-color: var(--color-white);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .detail-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .detail-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-3);
+    font-weight: 500;
+  }
+
+  .detail-date {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-sage);
+    font-weight: 500;
+    margin-bottom: var(--space-1);
+  }
+
+  .detail-time,
+  .detail-text {
+    color: var(--color-gray);
+  }
+
+  .detail-joke {
+    font-size: 0.6rem;
+    color: var(--color-gray-light);
+    margin-top: var(--space-3);
+    font-style: italic;
+  }
+
+  .detail-venue {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-1);
+  }
+
+  .detail-address {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+  }
+
+  .color-swatches {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Venue Card Link */
+  .detail-card-link {
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .detail-card-link:hover {
+    border-color: var(--color-sage);
+  }
+
+  .detail-map-link {
+    display: inline-block;
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-sage);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Hotels Section */
+  .hotels-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .travel-section-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+
+  .travel-icon {
+    font-size: var(--text-2xl);
+  }
+
+  .hotels-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+
+  .hotel-card {
+    background-color: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    position: relative;
+  }
+
+  .hotel-recommended {
+    /* Star indicator only, no border */
+  }
+
+  .hotel-star {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    font-size: 1.25rem;
+  }
+
+  .hotel-name {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-2);
+    font-weight: 500;
+  }
+
+  .hotel-address {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    margin-bottom: var(--space-3);
+  }
+
+  .hotel-distance {
+    font-size: var(--text-sm);
+    color: var(--color-sage);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+  }
+
+  .hotel-note {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    font-style: italic;
+  }
+
+  /* Getting Here Section */
+  .getting-here-section {
+    margin-bottom: var(--space-8);
+  }
+
+  .getting-here-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+  }
+
+  .info-card {
+    background-color: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+  }
+
+  .info-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+    display: block;
+  }
+
+  .info-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-3);
+    font-weight: 500;
+  }
+
+  .info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .info-list li {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    margin-bottom: var(--space-2);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .info-location {
+    font-weight: 500;
+    color: var(--color-charcoal);
+  }
+
+  .info-time {
+    font-size: var(--text-xs);
+    color: var(--color-sage);
+  }
+
+  .info-text {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    line-height: 1.6;
+  }
+
+  .info-address {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-2);
+  }
+
+  .info-joke {
+    font-size: 0.6rem;
+    color: var(--color-gray-light);
+    margin-top: var(--space-2);
+    font-style: italic;
+  }
+
+  /* Gifts Section */
+  .gifts-content {
+    text-align: center;
+  }
+
+  .gifts-message {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-charcoal);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto var(--space-10);
+  }
+
+  .gift-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .gift-card {
+    background-color: var(--color-ivory);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    text-align: center;
+  }
+
+  .gift-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+    display: block;
+  }
+
+  .gift-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-3);
+    font-weight: 500;
+  }
+
+  .gift-text {
+    font-size: var(--text-base);
+    color: var(--color-gray);
+    line-height: 1.6;
+  }
+
+  .gift-email-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  .gift-email {
+    font-family: monospace;
+    font-size: var(--text-sm);
+    color: var(--color-sage);
+  }
+
+  .copy-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-1);
+    font-size: var(--text-base);
+    color: var(--color-gray);
+    transition: color var(--transition-fast);
+  }
+
+  .copy-icon-btn:hover {
+    color: var(--color-sage);
+  }
+
+  .gifts-thankyou {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--color-sage);
+  }
+
+  .cta-text {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-style: italic;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-6);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .details-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .getting-here-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .page-title {
+      font-size: var(--text-4xl);
+    }
+
+    .hotels-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .gift-options {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Copy email functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyBtns = document.querySelectorAll('.copy-icon-btn');
+
+    copyBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const email = btn.getAttribute('data-email');
+        if (!email) return;
+
+        try {
+          await navigator.clipboard.writeText(email);
+          const copyIcon = btn.querySelector('.copy-icon') as HTMLElement;
+          const copiedIcon = btn.querySelector('.copied-icon') as HTMLElement;
+
+          if (copyIcon && copiedIcon) {
+            copyIcon.style.display = 'none';
+            copiedIcon.style.display = 'inline';
+
+            setTimeout(() => {
+              copyIcon.style.display = 'inline';
+              copiedIcon.style.display = 'none';
+            }, 2000);
+          }
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  });
+</script>

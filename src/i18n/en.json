@@ -1,0 +1,155 @@
+{
+  "lang": "en",
+  "nav": {
+    "story": "Our Story",
+    "details": "Details",
+    "travel": "Travel",
+    "gifts": "Gifts",
+    "rsvp": "RSVP"
+  },
+  "hero": {
+    "groom": "Kevin",
+    "bride": "Sophie",
+    "and": "&",
+    "date": "May 30, 2026",
+    "venue": "Spencer's at the Waterfront",
+    "location": "Toronto (Burlington), Ontario",
+    "cta": "RSVP Now"
+  },
+  "story": {
+    "title": "Our Story",
+    "subtitle": "How it all began",
+    "content": [
+      {
+        "title": "How We Met",
+        "text": "Our journey began... [Your story here]"
+      },
+      {
+        "title": "Building Together",
+        "text": "Our shared love of Minecraft brought us even closer. We spent countless nights building cozy homes and villages with friends."
+      },
+      {
+        "title": "The Proposal",
+        "text": "And then one magical day... [Your story here]"
+      },
+      {
+        "title": "The Wedding",
+        "text": "Now we invite you to celebrate with us as we begin our forever together."
+      }
+    ]
+  },
+  "details": {
+    "title": "Wedding Details",
+    "subtitle": "Join us for our special day",
+    "ceremony": {
+      "title": "Ceremony & Reception",
+      "date": "Saturday, May 30, 2026",
+      "time": "4:00 PM - 1:00 AM",
+      "venue": "Spencer's at the Waterfront",
+      "address": "1340 Lakeshore Rd, Burlington, ON L7S 1A5",
+      "joke": "Guests leaving early may be charged $100/hr."
+    },
+    "dresscode": {
+      "title": "Dress Code",
+      "text": "Formal Attire"
+    },
+    "mapLink": "View on Google Maps"
+  },
+  "travel": {
+    "title": "Travel & Accommodations",
+    "subtitle": "Information for our out-of-town guests",
+    "hotels": {
+      "title": "Recommended Hotels",
+      "list": [
+        {
+          "name": "The Pearle Hotel & Spa",
+          "address": "3 Elizabeth St, Oakville, ON",
+          "distance": "🚗 1 min  🚶 10 min",
+          "note": "Special rates may be available",
+          "recommended": true
+        },
+        {
+          "name": "Waterfront Hotel Burlington",
+          "address": "2020 Lakeshore Rd, Burlington, ON",
+          "distance": "🚗 1 min  🚶 10 min",
+          "note": "Walking distance to venue",
+          "recommended": false
+        }
+      ]
+    },
+    "gettingHere": {
+      "title": "Getting Here",
+      "byAir": {
+        "title": "By Air",
+        "items": [
+          "From Pearson (YYZ)",
+          "From Billy Bishop (YTZ)"
+        ],
+        "times": [
+          "🚗 ~30 min  🚶 pls no",
+          "🚗 ~45 min  🚶 pls no"
+        ]
+      },
+      "byTrain": {
+        "title": "By Train",
+        "items": [
+          "Union → Burlington GO",
+          "From Burlington GO"
+        ],
+        "times": [
+          "🚂 ~50 min",
+          "🚗 ~10 min  🚶 pls no"
+        ]
+      },
+      "byCar": {
+        "title": "By Car",
+        "address": "1340 Lakeshore Rd, Burlington, ON",
+        "parking": "Park in East or West lot. Free 4 PM - 1 AM. Early? Metered ~$2/hr."
+      }
+    }
+  },
+  "gifts": {
+    "title": "Gifts",
+    "subtitle": "Your presence is the greatest gift",
+    "message": "Your presence at our wedding is the greatest gift of all. If you wish to honor us with a gift, we would be grateful for a contribution to our future together.",
+    "options": {
+      "title": "Gift Options",
+      "cash": "Cash and cards are welcome on the day of the event",
+      "etransfer": "E-Transfer",
+      "etransferEmail": "kezhanghk@outlook.com"
+    },
+    "thankyou": "Thank you for your love and generosity!"
+  },
+  "rsvp": {
+    "title": "RSVP",
+    "subtitle": "Please respond by Feb 28, 2026",
+    "form": {
+      "name": "Guest Name(s)",
+      "namePlaceholder": "Enter your full name",
+      "email": "Email Address",
+      "emailPlaceholder": "your@email.com",
+      "attending": "Will you be attending?",
+      "yes": "Joyfully Accept",
+      "no": "Regretfully Decline",
+      "guests": "Number of Guests",
+      "meal": "Meal Preference",
+      "mealOptions": [
+        "No Preference",
+        "Vegetarian",
+        "Vegan",
+        "Gluten-Free"
+      ],
+      "mealNote": "You'll select your meal from a menu of choices on the day. Dietary declarations help us prepare for special preferences and ensure everyone is well accommodated.",
+      "dietary": "Allergies or Dietary Requirements",
+      "dietaryPlaceholder": "Please list any allergies or dietary requirements",
+      "message": "Message to the Couple",
+      "messagePlaceholder": "Share your well wishes...",
+      "submit": "Send RSVP"
+    }
+  },
+  "footer": {
+    "names": "Kevin & Sophie",
+    "date": "May 30, 2026",
+    "message": "We can't wait to celebrate with you!"
+  }
+}

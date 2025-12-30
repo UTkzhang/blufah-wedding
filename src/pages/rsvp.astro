@@ -1,0 +1,868 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+---
+
+<Layout title="RSVP | Kevin & Sophie">
+  <Navigation currentPage="rsvp" />
+  <main class="page-content">
+    <section class="rsvp-page">
+      <div class="container">
+        <div class="rsvp-wrapper">
+          <!-- Left Side - Decorative -->
+          <div class="rsvp-decoration" data-animate="left">
+            <div class="decoration-content">
+              <span class="decoration-icon">♡</span>
+              <h2 class="decoration-title">
+                <span data-lang-en>Join Our Celebration</span>
+                <span data-lang-zh style="display: none;">参加我们的庆典</span>
+              </h2>
+              <div class="decoration-divider"></div>
+              <p class="decoration-date">
+                <span data-lang-en>{en.hero.date}</span>
+                <span data-lang-zh style="display: none;">{zh.hero.date}</span>
+              </p>
+              <p class="decoration-venue">
+                <span data-lang-en>{en.hero.venue}</span>
+                <span data-lang-zh style="display: none;">{zh.hero.venue}</span>
+              </p>
+            </div>
+          </div>
+
+          <!-- Right Side - Form Container -->
+          <div class="rsvp-form-container" data-animate="right">
+            <!-- Step 1: Code Entry -->
+            <div id="code-step" class="form-step">
+              <div class="form-header">
+                <h1 class="form-title">
+                  <span data-lang-en>Enter Your Code</span>
+                  <span data-lang-zh style="display: none;">输入您的邀请码</span>
+                </h1>
+                <p class="form-subtitle">
+                  <span data-lang-en>Please enter the code from your invitation</span>
+                  <span data-lang-zh style="display: none;">请输入您邀请函上的邀请码</span>
+                </p>
+              </div>
+
+              <div class="code-entry">
+                <div class="form-field">
+                  <input type="text" id="guest-code" placeholder=" " autocomplete="off" />
+                  <label for="guest-code">
+                    <span data-lang-en>Invitation Code</span>
+                    <span data-lang-zh style="display: none;">邀请码</span>
+                  </label>
+                  <span class="field-line"></span>
+                </div>
+
+                <p id="code-error" class="error-message hidden">
+                  <span data-lang-en>Invalid code. Please check your invitation and try again.</span>
+                  <span data-lang-zh style="display: none;">邀请码无效，请检查您的邀请函后重试。</span>
+                </p>
+
+                <p id="loading-message" class="loading-message hidden">
+                  <span data-lang-en>Loading...</span>
+                  <span data-lang-zh style="display: none;">加载中...</span>
+                </p>
+
+                <button type="button" id="validate-btn" class="btn btn-primary btn-large">
+                  <span data-lang-en>Continue</span>
+                  <span data-lang-zh style="display: none;">继续</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Personalized RSVP Form -->
+            <div id="form-step" class="form-step hidden">
+              <div class="form-header">
+                <h1 class="form-title">
+                  <span data-lang-en>{en.rsvp.title}</span>
+                  <span data-lang-zh style="display: none;">{zh.rsvp.title}</span>
+                </h1>
+                <p class="form-subtitle">
+                  <span data-lang-en>{en.rsvp.subtitle}</span>
+                  <span data-lang-zh style="display: none;">{zh.rsvp.subtitle}</span>
+                </p>
+              </div>
+
+              <!-- Personalized Welcome -->
+              <div class="welcome-section">
+                <h2 class="welcome-name">
+                  <span data-lang-en>Welcome, </span>
+                  <span data-lang-zh style="display: none;">欢迎，</span>
+                  <span id="guest-name"></span>!
+                </h2>
+                <p id="custom-message" class="welcome-message"></p>
+              </div>
+
+              <!-- Google Form (iframe submit target for redirect-free submission) -->
+              <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+              <form class="rsvp-form" id="rsvp-form" target="hidden_iframe" method="POST">
+                <!-- Hidden fields for code and name -->
+                <input type="hidden" name="entry.PLACEHOLDER_CODE" id="form-code" />
+                <input type="hidden" name="entry.PLACEHOLDER_NAME" id="form-name" />
+
+                <!-- Attendance Selection -->
+                <div class="form-section">
+                  <p class="section-label">
+                    <span data-lang-en>{en.rsvp.form.attending}</span>
+                    <span data-lang-zh style="display: none;">{zh.rsvp.form.attending}</span>
+                  </p>
+                  <div class="attendance-cards">
+                    <label class="attendance-card">
+                      <input type="radio" name="entry.PLACEHOLDER_ATTENDING" value="Yes" required />
+                      <span class="card-content">
+                        <span class="card-icon">✓</span>
+                        <span class="card-text">
+                          <span data-lang-en>{en.rsvp.form.yes}</span>
+                          <span data-lang-zh style="display: none;">{zh.rsvp.form.yes}</span>
+                        </span>
+                      </span>
+                    </label>
+                    <label class="attendance-card">
+                      <input type="radio" name="entry.PLACEHOLDER_ATTENDING" value="No" />
+                      <span class="card-content">
+                        <span class="card-icon">✗</span>
+                        <span class="card-text">
+                          <span data-lang-en>{en.rsvp.form.no}</span>
+                          <span data-lang-zh style="display: none;">{zh.rsvp.form.no}</span>
+                        </span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Guest Count (dynamically populated) -->
+                <div class="form-row">
+                  <div class="form-field form-field-select">
+                    <select id="guest-count" name="entry.PLACEHOLDER_GUESTS">
+                      <!-- Options populated by JS based on max_guests -->
+                    </select>
+                    <label for="guest-count">
+                      <span data-lang-en>{en.rsvp.form.guests}</span>
+                      <span data-lang-zh style="display: none;">{zh.rsvp.form.guests}</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Dietary Section -->
+                <div class="form-section dietary-section">
+                  <p class="section-label">
+                    <span data-lang-en>Dietary Information</span>
+                    <span data-lang-zh style="display: none;">饮食信息</span>
+                  </p>
+                  <div class="dietary-note">
+                    <span class="note-icon">🍽️</span>
+                    <p class="note-text">
+                      <span data-lang-en>{en.rsvp.form.mealNote}</span>
+                      <span data-lang-zh style="display: none;">{zh.rsvp.form.mealNote}</span>
+                    </p>
+                  </div>
+                  <div class="form-field">
+                    <input type="text" id="dietary" name="entry.PLACEHOLDER_DIETARY" placeholder=" " />
+                    <label for="dietary">
+                      <span data-lang-en>{en.rsvp.form.dietary}</span>
+                      <span data-lang-zh style="display: none;">{zh.rsvp.form.dietary}</span>
+                    </label>
+                    <span class="field-line"></span>
+                  </div>
+                </div>
+
+                <!-- Message Field -->
+                <div class="form-field form-field-textarea">
+                  <textarea id="message" name="entry.PLACEHOLDER_MESSAGE" rows="3" placeholder=" "></textarea>
+                  <label for="message">
+                    <span data-lang-en>{en.rsvp.form.message}</span>
+                    <span data-lang-zh style="display: none;">{zh.rsvp.form.message}</span>
+                  </label>
+                  <span class="field-line"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-submit">
+                  <button type="submit" class="btn btn-primary btn-large">
+                    <span data-lang-en>{en.rsvp.form.submit}</span>
+                    <span data-lang-zh style="display: none;">{zh.rsvp.form.submit}</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Step 3: Thank You -->
+            <div id="thankyou-step" class="form-step hidden">
+              <div class="thankyou-content">
+                <span class="thankyou-icon">♡</span>
+                <h2 class="thankyou-title">
+                  <span data-lang-en>Thank You!</span>
+                  <span data-lang-zh style="display: none;">谢谢您！</span>
+                </h2>
+                <p class="thankyou-message">
+                  <span data-lang-en>Your RSVP has been submitted. We can't wait to celebrate with you!</span>
+                  <span data-lang-zh style="display: none;">您的回复已提交。我们期待与您共同庆祝！</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .rsvp-page {
+    min-height: 100vh;
+    padding-top: 80px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--color-ivory) 0%, var(--color-white) 100%);
+  }
+
+  .rsvp-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 0;
+    background-color: var(--color-white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    margin: var(--space-8) 0;
+  }
+
+  /* Decorative Side */
+  .rsvp-decoration {
+    background: linear-gradient(135deg, var(--color-charcoal) 0%, #1a1a1a 100%);
+    padding: var(--space-12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .rsvp-decoration::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/extra1.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+  }
+
+  .decoration-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--color-white);
+  }
+
+  .decoration-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: var(--space-6);
+  }
+
+  .decoration-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    margin-bottom: var(--space-6);
+    color: var(--color-white);
+  }
+
+  .decoration-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--color-sage);
+    margin: 0 auto var(--space-6);
+  }
+
+  .decoration-date {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-sage);
+    margin-bottom: var(--space-2);
+  }
+
+  .decoration-venue {
+    font-size: var(--text-base);
+    opacity: 0.8;
+  }
+
+  /* Form Container */
+  .rsvp-form-container {
+    padding: var(--space-12);
+  }
+
+  .form-step {
+    transition: opacity var(--transition-base);
+  }
+
+  .form-step.hidden {
+    display: none;
+  }
+
+  .form-header {
+    text-align: center;
+    margin-bottom: var(--space-10);
+  }
+
+  .form-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-4xl);
+    font-weight: 400;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-2);
+  }
+
+  .form-subtitle {
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    font-style: italic;
+    color: var(--color-gray);
+  }
+
+  /* Code Entry */
+  .code-entry {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .code-entry .form-field {
+    margin-bottom: var(--space-6);
+  }
+
+  .code-entry input {
+    text-align: center;
+    font-size: var(--text-xl);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .error-message {
+    color: #c53030;
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+    padding: var(--space-3);
+    background-color: #fff5f5;
+    border-radius: var(--radius-sm);
+  }
+
+  .error-message.hidden {
+    display: none;
+  }
+
+  .loading-message {
+    color: var(--color-gray);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-4);
+  }
+
+  .loading-message.hidden {
+    display: none;
+  }
+
+  /* Welcome Section */
+  .welcome-section {
+    text-align: center;
+    margin-bottom: var(--space-8);
+    padding: var(--space-6);
+    background-color: var(--color-ivory);
+    border-radius: var(--radius-base);
+    border-left: 4px solid var(--color-sage);
+  }
+
+  .welcome-name {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-weight: 400;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-2);
+  }
+
+  .welcome-message {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--color-sage-dark);
+    margin-bottom: 0;
+  }
+
+  /* Thank You */
+  .thankyou-content {
+    text-align: center;
+    padding: var(--space-12) var(--space-6);
+  }
+
+  .thankyou-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: var(--space-6);
+  }
+
+  .thankyou-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-4);
+  }
+
+  .thankyou-message {
+    font-size: var(--text-lg);
+    color: var(--color-gray);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* Form Fields */
+  .rsvp-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .form-field {
+    position: relative;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    padding: var(--space-4) 0 var(--space-2);
+    border: none;
+    border-bottom: 1px solid var(--color-gray-light);
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-charcoal);
+    transition: border-color var(--transition-fast);
+    border-radius: 0;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .form-field label {
+    position: absolute;
+    left: 0;
+    top: var(--space-4);
+    font-size: var(--text-base);
+    color: var(--color-gray);
+    pointer-events: none;
+    transition: all var(--transition-fast);
+    margin-bottom: 0;
+  }
+
+  .form-field input:focus + label,
+  .form-field input:not(:placeholder-shown) + label,
+  .form-field textarea:focus + label,
+  .form-field textarea:not(:placeholder-shown) + label {
+    top: 0;
+    font-size: var(--text-xs);
+    color: var(--color-sage);
+  }
+
+  .field-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-sage);
+    transition: width var(--transition-base);
+  }
+
+  .form-field input:focus ~ .field-line,
+  .form-field textarea:focus ~ .field-line {
+    width: 100%;
+  }
+
+  .form-field-select {
+    position: relative;
+  }
+
+  .form-field-select select {
+    width: 100%;
+    padding: var(--space-4) var(--space-10) var(--space-4) 0;
+    border: none;
+    border-bottom: 1px solid var(--color-gray-light);
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-charcoal);
+    cursor: pointer;
+    appearance: none;
+    border-radius: 0;
+  }
+
+  .form-field-select::after {
+    content: '▼';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--text-xs);
+    color: var(--color-gray);
+    pointer-events: none;
+  }
+
+  .form-field-select label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: var(--text-xs);
+    color: var(--color-sage);
+    pointer-events: none;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+  }
+
+  /* Attendance Cards */
+  .form-section {
+    margin: var(--space-4) 0;
+  }
+
+  .section-label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-4);
+  }
+
+  .attendance-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .attendance-card {
+    cursor: pointer;
+    margin-bottom: 0;
+  }
+
+  .attendance-card input {
+    display: none;
+  }
+
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    border: 2px solid var(--color-gray-light);
+    border-radius: var(--radius-base);
+    transition: all var(--transition-base);
+    background-color: var(--color-white);
+  }
+
+  .attendance-card:hover .card-content {
+    border-color: var(--color-sage-light);
+    background-color: var(--color-ivory);
+  }
+
+  .attendance-card input:checked + .card-content {
+    border-color: var(--color-sage);
+    background-color: var(--color-ivory);
+  }
+
+  .card-icon {
+    font-size: var(--text-2xl);
+    color: var(--color-gray);
+    transition: color var(--transition-fast);
+  }
+
+  .attendance-card input:checked + .card-content .card-icon {
+    color: var(--color-sage);
+  }
+
+  .card-text {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-charcoal);
+  }
+
+  /* Dietary Section */
+  .dietary-section {
+    background-color: var(--color-ivory);
+    padding: var(--space-6);
+    border-radius: var(--radius-base);
+    margin: var(--space-6) 0;
+  }
+
+  .dietary-note {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+    background-color: var(--color-white);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--color-sage);
+  }
+
+  .note-icon {
+    font-size: var(--text-xl);
+    flex-shrink: 0;
+  }
+
+  .note-text {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .dietary-section .form-field input {
+    background-color: var(--color-white);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-gray-light);
+    border-radius: var(--radius-sm);
+  }
+
+  .dietary-section .form-field label {
+    left: var(--space-4);
+    top: var(--space-3);
+  }
+
+  .dietary-section .form-field input:focus + label,
+  .dietary-section .form-field input:not(:placeholder-shown) + label {
+    top: calc(-1 * var(--space-3));
+    left: var(--space-2);
+    background-color: var(--color-ivory);
+    padding: 0 var(--space-1);
+  }
+
+  .dietary-section .field-line {
+    display: none;
+  }
+
+  /* Submit */
+  .form-submit {
+    text-align: center;
+    margin-top: var(--space-6);
+  }
+
+  .btn-large {
+    padding: var(--space-5) var(--space-12);
+    font-size: var(--text-base);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .rsvp-wrapper {
+      grid-template-columns: 1fr;
+    }
+
+    .rsvp-decoration {
+      padding: var(--space-8);
+    }
+
+    .decoration-icon {
+      font-size: 3rem;
+    }
+
+    .decoration-title {
+      font-size: var(--text-2xl);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .rsvp-page {
+      padding-top: 60px;
+    }
+
+    .rsvp-wrapper {
+      margin: var(--space-4) 0;
+      border-radius: var(--radius-lg);
+    }
+
+    .rsvp-form-container {
+      padding: var(--space-6);
+    }
+
+    .form-title {
+      font-size: var(--text-3xl);
+    }
+
+    .attendance-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // ============================================================================
+  // CONFIGURATION - Replace these with your actual URLs
+  // See RSVP_SETUP_INSTRUCTIONS.txt for setup guide
+  // ============================================================================
+  const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL';
+  const GOOGLE_FORM_URL = 'YOUR_GOOGLE_FORM_URL';
+
+  // Demo mode - set to false after configuring real URLs
+  const DEMO_MODE = APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL';
+
+  interface GuestData {
+    name: string;
+    max_guests: number;
+    message: string;
+  }
+
+  let currentCode: string = '';
+
+  // Validate code via Apps Script API
+  async function validateCode(): Promise<void> {
+    const codeInput = document.getElementById('guest-code') as HTMLInputElement;
+    const errorEl = document.getElementById('code-error');
+    const loadingEl = document.getElementById('loading-message');
+    const validateBtn = document.getElementById('validate-btn') as HTMLButtonElement;
+
+    const code = codeInput.value.trim().toUpperCase();
+
+    if (!code) {
+      errorEl?.classList.remove('hidden');
+      return;
+    }
+
+    // Show loading state
+    errorEl?.classList.add('hidden');
+    loadingEl?.classList.remove('hidden');
+    if (validateBtn) validateBtn.disabled = true;
+
+    try {
+      let guest: GuestData | null = null;
+
+      if (DEMO_MODE) {
+        // Demo mode - use sample data
+        const demoGuests: Record<string, GuestData> = {
+          'DEMO123': { name: 'Demo Guest', max_guests: 2, message: 'Welcome to our celebration!' },
+          'VIP2026': { name: 'Special Guest', max_guests: 4, message: 'We are honored to have you join our wedding party!' },
+          'MC2026': { name: 'MC Guest', max_guests: 1, message: 'We would be honored if you would MC our wedding!' }
+        };
+        guest = demoGuests[code] || null;
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } else {
+        // Call Apps Script API
+        const response = await fetch(`${APPS_SCRIPT_URL}?code=${encodeURIComponent(code)}`);
+        const data = await response.json();
+
+        if (data.success && data.guest) {
+          guest = data.guest;
+        }
+      }
+
+      loadingEl?.classList.add('hidden');
+      if (validateBtn) validateBtn.disabled = false;
+
+      if (guest) {
+        currentCode = code;
+        showPersonalizedForm(code, guest);
+      } else {
+        errorEl?.classList.remove('hidden');
+        codeInput.focus();
+      }
+
+    } catch (error) {
+      console.error('Error validating code:', error);
+      loadingEl?.classList.add('hidden');
+      errorEl?.classList.remove('hidden');
+      if (validateBtn) validateBtn.disabled = false;
+    }
+  }
+
+  // Show personalized form
+  function showPersonalizedForm(code: string, guest: GuestData): void {
+    const codeStep = document.getElementById('code-step');
+    const formStep = document.getElementById('form-step');
+    const form = document.getElementById('rsvp-form') as HTMLFormElement;
+
+    // Hide code step, show form step
+    codeStep?.classList.add('hidden');
+    formStep?.classList.remove('hidden');
+
+    // Set personalized content
+    const guestNameEl = document.getElementById('guest-name');
+    const customMessageEl = document.getElementById('custom-message');
+    const formCodeEl = document.getElementById('form-code') as HTMLInputElement;
+    const formNameEl = document.getElementById('form-name') as HTMLInputElement;
+
+    if (guestNameEl) guestNameEl.textContent = guest.name;
+    if (customMessageEl) customMessageEl.textContent = guest.message;
+    if (formCodeEl) formCodeEl.value = code;
+    if (formNameEl) formNameEl.value = guest.name;
+
+    // Populate guest count dropdown
+    const guestCountSelect = document.getElementById('guest-count') as HTMLSelectElement;
+    guestCountSelect.innerHTML = '';
+    for (let i = 1; i <= guest.max_guests; i++) {
+      const option = document.createElement('option');
+      option.value = i.toString();
+      option.textContent = i.toString();
+      guestCountSelect.appendChild(option);
+    }
+
+    // Set form action
+    if (form && !DEMO_MODE) {
+      form.action = GOOGLE_FORM_URL;
+    }
+  }
+
+  // Show thank you after submission
+  function showThankYou(): void {
+    const formStep = document.getElementById('form-step');
+    const thankyouStep = document.getElementById('thankyou-step');
+
+    formStep?.classList.add('hidden');
+    thankyouStep?.classList.remove('hidden');
+  }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    // Validate button click
+    const validateBtn = document.getElementById('validate-btn');
+    validateBtn?.addEventListener('click', () => validateCode());
+
+    // Enter key on code input
+    const codeInput = document.getElementById('guest-code');
+    codeInput?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        validateCode();
+      }
+    });
+
+    // Form submission
+    const form = document.getElementById('rsvp-form') as HTMLFormElement;
+    form?.addEventListener('submit', (e) => {
+      // If demo mode, prevent submission and show thank you
+      if (DEMO_MODE) {
+        e.preventDefault();
+        showThankYou();
+        return;
+      }
+
+      // Otherwise, let form submit to iframe and show thank you
+      setTimeout(showThankYou, 500);
+    });
+
+    // Log demo mode status
+    if (DEMO_MODE) {
+      console.log('RSVP is in DEMO MODE. Test codes: DEMO123, VIP2026, MC2026');
+    }
+  });
+</script>

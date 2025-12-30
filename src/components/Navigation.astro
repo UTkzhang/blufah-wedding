@@ -1,0 +1,287 @@
+---
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+
+interface Props {
+  currentPage?: string;
+}
+
+const { currentPage = 'home' } = Astro.props;
+---
+
+<nav class="nav">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">
+      <span>K & S</span>
+    </a>
+
+    <button class="nav-mobile-toggle" aria-label="Toggle menu">
+      <span class="hamburger"></span>
+    </button>
+
+    <ul class="nav-links">
+      <li>
+        <a href="/" class:list={["nav-link", "link-underline", { active: currentPage === 'home' }]}>
+          <span data-lang-en>Home</span>
+          <span data-lang-zh style="display: none;">首页</span>
+        </a>
+      </li>
+      <li>
+        <a href="/story" class:list={["nav-link", "link-underline", { active: currentPage === 'story' }]}>
+          <span data-lang-en>{en.nav.story}</span>
+          <span data-lang-zh style="display: none;">{zh.nav.story}</span>
+        </a>
+      </li>
+      <li>
+        <a href="/details" class:list={["nav-link", "link-underline", { active: currentPage === 'details' }]}>
+          <span data-lang-en>{en.nav.details}</span>
+          <span data-lang-zh style="display: none;">{zh.nav.details}</span>
+        </a>
+      </li>
+      <li>
+        <a href="/rsvp" class:list={["nav-link", "nav-cta", { active: currentPage === 'rsvp' }]}>
+          <span data-lang-en>{en.nav.rsvp}</span>
+          <span data-lang-zh style="display: none;">{zh.nav.rsvp}</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="lang-toggle">
+      <button class="lang-toggle-btn active" data-lang="en">EN</button>
+      <span class="lang-divider">|</span>
+      <button class="lang-toggle-btn" data-lang="zh">中文</button>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-gray-light);
+    transition: all var(--transition-base);
+  }
+
+  .nav.scrolled {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .nav-container {
+    max-width: var(--max-width-wide);
+    margin: 0 auto;
+    padding: var(--space-4) var(--space-6);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    color: var(--color-charcoal);
+    letter-spacing: 0.1em;
+    transition: color var(--transition-fast);
+  }
+
+  .nav-logo:hover {
+    color: var(--color-sage);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    list-style: none;
+  }
+
+  .nav-link {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-charcoal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: color var(--transition-fast);
+    padding: var(--space-2) 0;
+  }
+
+  .nav-link:hover {
+    color: var(--color-sage);
+  }
+
+  /* Minecraft easter egg on Story link */
+  .nav-link[href="/story"]::before {
+    content: '';
+    margin-right: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .nav-link[href="/story"]:hover::before {
+    content: '⛏ ';
+    margin-right: var(--space-1);
+  }
+
+  .nav-link.active {
+    color: var(--color-sage);
+  }
+
+  .nav-link.active::after {
+    width: 100%;
+  }
+
+  .nav-cta {
+    background-color: var(--color-sage);
+    color: var(--color-white) !important;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+  }
+
+  .nav-cta:hover {
+    background-color: var(--color-sage-dark);
+    transform: translateY(-1px);
+  }
+
+  .nav-cta::after {
+    display: none;
+  }
+
+  .lang-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+  }
+
+  .lang-toggle-btn {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-gray);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-1) var(--space-2);
+    transition: color var(--transition-fast);
+  }
+
+  .lang-toggle-btn:hover,
+  .lang-toggle-btn.active {
+    color: var(--color-sage);
+  }
+
+  .lang-divider {
+    color: var(--color-gray-light);
+    font-size: var(--text-sm);
+  }
+
+  .nav-mobile-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--space-2);
+  }
+
+  .hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-charcoal);
+    position: relative;
+    transition: background-color var(--transition-fast);
+  }
+
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-charcoal);
+    transition: transform var(--transition-fast);
+  }
+
+  .hamburger::before {
+    top: -7px;
+  }
+
+  .hamburger::after {
+    top: 7px;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 900px) {
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .nav-mobile-toggle {
+      display: block;
+      order: 3;
+    }
+
+    .nav-links {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background-color: var(--color-white);
+      flex-direction: column;
+      padding: var(--space-6);
+      gap: var(--space-4);
+      border-bottom: 1px solid var(--color-gray-light);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-base);
+    }
+
+    .nav-links.open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lang-toggle {
+      margin-right: var(--space-4);
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.nav-mobile-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const nav = document.querySelector('.nav');
+
+    toggle?.addEventListener('click', () => {
+      navLinks?.classList.toggle('open');
+    });
+
+    // Close menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks?.classList.remove('open');
+      });
+    });
+
+    // Add scrolled class on scroll
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        nav?.classList.add('scrolled');
+      } else {
+        nav?.classList.remove('scrolled');
+      }
+    });
+  });
+</script>

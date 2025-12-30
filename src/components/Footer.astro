@@ -1,0 +1,174 @@
+---
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+---
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-monogram">
+      <span class="monogram-letter">K</span>
+      <span class="monogram-and">&</span>
+      <span class="monogram-letter">S</span>
+    </div>
+
+    <p class="footer-date">
+      <span data-lang-en>{en.footer.date}</span>
+      <span data-lang-zh style="display: none;">{zh.footer.date}</span>
+    </p>
+
+    <p class="footer-message">
+      <span data-lang-en>{en.footer.message}</span>
+      <span data-lang-zh style="display: none;">{zh.footer.message}</span>
+    </p>
+
+    <nav class="footer-nav">
+      <a href="/" class="footer-link">
+        <span data-lang-en>Home</span>
+        <span data-lang-zh style="display: none;">首页</span>
+      </a>
+      <span class="footer-divider">·</span>
+      <a href="/story" class="footer-link">
+        <span data-lang-en>{en.nav.story}</span>
+        <span data-lang-zh style="display: none;">{zh.nav.story}</span>
+      </a>
+      <span class="footer-divider">·</span>
+      <a href="/details" class="footer-link">
+        <span data-lang-en>{en.nav.details}</span>
+        <span data-lang-zh style="display: none;">{zh.nav.details}</span>
+      </a>
+      <span class="footer-divider">·</span>
+      <a href="/rsvp" class="footer-link">
+        <span data-lang-en>{en.nav.rsvp}</span>
+        <span data-lang-zh style="display: none;">{zh.nav.rsvp}</span>
+      </a>
+    </nav>
+
+    <div class="footer-hearts">
+      <span>♡</span>
+      <span>♡</span>
+      <span>♡</span>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-credits">
+      <span data-lang-en>Kevin (Gensheng) Zhang & Sophie (Ziqi) Su</span>
+      <span data-lang-zh style="display: none;">张根生 & 苏紫琦</span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-charcoal);
+    color: var(--color-white);
+    padding: var(--space-16) var(--space-6) var(--space-8);
+    text-align: center;
+  }
+
+  .footer-content {
+    max-width: var(--max-width-narrow);
+    margin: 0 auto;
+  }
+
+  .footer-monogram {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .monogram-letter {
+    font-family: var(--font-serif);
+    font-size: var(--text-5xl);
+    font-weight: 300;
+    color: var(--color-white);
+  }
+
+  .monogram-and {
+    font-family: var(--font-serif);
+    font-size: var(--text-3xl);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--color-sage);
+  }
+
+  .footer-date {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-sage);
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-4);
+  }
+
+  .footer-message {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--space-8);
+  }
+
+  .footer-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-8);
+  }
+
+  .footer-link {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: color var(--transition-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--color-sage);
+  }
+
+  .footer-divider {
+    color: var(--color-sage);
+    opacity: 0.5;
+  }
+
+  .footer-hearts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    color: var(--color-sage);
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-10);
+  }
+
+  .footer-bottom {
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-credits {
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 0.05em;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .monogram-letter {
+      font-size: var(--text-4xl);
+    }
+
+    .monogram-and {
+      font-size: var(--text-2xl);
+    }
+
+    .footer-nav {
+      gap: var(--space-2);
+    }
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+---
+
+<section class="section" id="gifts">
+  <div class="container container-narrow">
+    <header class="section-header" data-animate>
+      <h2 class="section-title">
+        <span data-lang-en>{en.gifts.title}</span>
+        <span data-lang-zh style="display: none;">{zh.gifts.title}</span>
+      </h2>
+      <p class="section-subtitle">
+        <span data-lang-en>{en.gifts.subtitle}</span>
+        <span data-lang-zh style="display: none;">{zh.gifts.subtitle}</span>
+      </p>
+      <div class="divider">
+        <span class="divider-icon">&#127873;</span>
+      </div>
+    </header>
+
+    <div class="gifts-content" data-animate>
+      <p class="gifts-message">
+        <span data-lang-en>{en.gifts.message}</span>
+        <span data-lang-zh style="display: none;">{zh.gifts.message}</span>
+      </p>
+
+      <div class="gifts-options">
+        <h3 class="gifts-options-title">
+          <span data-lang-en>{en.gifts.options.title}</span>
+          <span data-lang-zh style="display: none;">{zh.gifts.options.title}</span>
+        </h3>
+
+        <div class="gift-cards">
+          <div class="gift-card">
+            <span class="gift-icon">&#128179;</span>
+            <p class="gift-text">
+              <span data-lang-en>{en.gifts.options.cash}</span>
+              <span data-lang-zh style="display: none;">{zh.gifts.options.cash}</span>
+            </p>
+          </div>
+
+          <div class="gift-card gift-card-highlight">
+            <span class="gift-icon">&#128231;</span>
+            <p class="gift-label">
+              <span data-lang-en>{en.gifts.options.etransfer}</span>
+              <span data-lang-zh style="display: none;">{zh.gifts.options.etransfer}</span>
+            </p>
+            <p class="gift-email">{en.gifts.options.etransferEmail}</p>
+            <button class="copy-btn" data-email={en.gifts.options.etransferEmail}>
+              <span class="copy-text">Copy</span>
+              <span class="copied-text" style="display: none;">Copied!</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <p class="gifts-thankyou">
+        <span data-lang-en>{en.gifts.thankyou}</span>
+        <span data-lang-zh style="display: none;">{zh.gifts.thankyou}</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-8);
+  }
+
+  .gifts-content {
+    text-align: center;
+  }
+
+  .gifts-message {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-charcoal);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto var(--space-10);
+  }
+
+  .gifts-options {
+    background-color: var(--color-ivory);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+  }
+
+  .gifts-options-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-6);
+    font-weight: 500;
+  }
+
+  .gift-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .gift-card {
+    background-color: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .gift-card-highlight {
+    border: 2px solid var(--color-sage);
+  }
+
+  .gift-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+    display: block;
+  }
+
+  .gift-text {
+    font-size: var(--text-base);
+    color: var(--color-gray);
+    line-height: 1.6;
+  }
+
+  .gift-label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-charcoal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-2);
+  }
+
+  .gift-email {
+    font-family: monospace;
+    font-size: var(--text-base);
+    color: var(--color-sage);
+    margin-bottom: var(--space-3);
+    word-break: break-all;
+  }
+
+  .copy-btn {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-white);
+    background-color: var(--color-sage);
+    border: none;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .copy-btn:hover {
+    background-color: var(--color-sage-dark);
+  }
+
+  .gifts-thankyou {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-style: italic;
+    color: var(--color-sage);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .gifts-options {
+      padding: var(--space-6);
+    }
+
+    .gift-cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const copyBtns = document.querySelectorAll('.copy-btn');
+
+    copyBtns.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const email = btn.getAttribute('data-email');
+        if (!email) return;
+
+        try {
+          await navigator.clipboard.writeText(email);
+          const copyText = btn.querySelector('.copy-text') as HTMLElement;
+          const copiedText = btn.querySelector('.copied-text') as HTMLElement;
+
+          if (copyText && copiedText) {
+            copyText.style.display = 'none';
+            copiedText.style.display = 'inline';
+
+            setTimeout(() => {
+              copyText.style.display = 'inline';
+              copiedText.style.display = 'none';
+            }, 2000);
+          }
+        } catch (err) {
+          console.error('Failed to copy:', err);
+        }
+      });
+    });
+  });
+</script>

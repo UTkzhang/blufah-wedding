@@ -1,0 +1,217 @@
+---
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+
+const mapUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2903.8789686839!2d-79.8049!3d43.3169!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882b61e9c5f4c5d1%3A0x9d9b7c3c3c3c3c3c!2sSpencer&#39;s%20at%20the%20Waterfront!5e0!3m2!1sen!2sca!4v1234567890";
+const mapsLink = "https://www.google.com/maps/search/?api=1&query=Spencer's+at+the+Waterfront+Burlington+ON";
+---
+
+<section class="section" id="details">
+  <div class="container">
+    <header class="section-header" data-animate>
+      <h2 class="section-title">
+        <span data-lang-en>{en.details.title}</span>
+        <span data-lang-zh style="display: none;">{zh.details.title}</span>
+      </h2>
+      <p class="section-subtitle">
+        <span data-lang-en>{en.details.subtitle}</span>
+        <span data-lang-zh style="display: none;">{zh.details.subtitle}</span>
+      </p>
+      <div class="divider">
+        <span class="divider-icon">&#9830;</span>
+      </div>
+    </header>
+
+    <div class="details-grid">
+      <div class="details-card" data-animate>
+        <div class="details-icon">&#128205;</div>
+        <h3 class="details-card-title">
+          <span data-lang-en>{en.details.ceremony.title}</span>
+          <span data-lang-zh style="display: none;">{zh.details.ceremony.title}</span>
+        </h3>
+        <p class="details-date">
+          <span data-lang-en>{en.details.ceremony.date}</span>
+          <span data-lang-zh style="display: none;">{zh.details.ceremony.date}</span>
+        </p>
+        <p class="details-time">
+          <span data-lang-en>{en.details.ceremony.time}</span>
+          <span data-lang-zh style="display: none;">{zh.details.ceremony.time}</span>
+        </p>
+        <p class="details-venue">{en.details.ceremony.venue}</p>
+        <p class="details-address">{en.details.ceremony.address}</p>
+        <a href={mapsLink} target="_blank" rel="noopener noreferrer" class="details-map-link">
+          <span data-lang-en>{en.details.mapLink}</span>
+          <span data-lang-zh style="display: none;">{zh.details.mapLink}</span>
+          <span class="arrow">&#8599;</span>
+        </a>
+      </div>
+
+      <div class="details-card" data-animate style="animation-delay: 0.2s;">
+        <div class="details-icon">&#128084;</div>
+        <h3 class="details-card-title">
+          <span data-lang-en>{en.details.dresscode.title}</span>
+          <span data-lang-zh style="display: none;">{zh.details.dresscode.title}</span>
+        </h3>
+        <p class="details-text">
+          <span data-lang-en>{en.details.dresscode.text}</span>
+          <span data-lang-zh style="display: none;">{zh.details.dresscode.text}</span>
+        </p>
+        <div class="dresscode-colors">
+          <span class="color-hint">Suggested palette</span>
+          <div class="color-swatches">
+            <span class="swatch" style="background-color: #2C2C2C;" title="Black"></span>
+            <span class="swatch" style="background-color: #1a365d;" title="Navy"></span>
+            <span class="swatch" style="background-color: #5a4a42;" title="Taupe"></span>
+            <span class="swatch" style="background-color: #8B4513;" title="Burgundy"></span>
+            <span class="swatch" style="background-color: #C9A962;" title="Gold"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-container" data-animate style="animation-delay: 0.4s;">
+      <iframe
+        src={mapUrl}
+        width="100%"
+        height="350"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Venue location"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+  }
+
+  .details-card {
+    background-color: var(--color-ivory);
+    padding: var(--space-8);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .details-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-4);
+  }
+
+  .details-card-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-4);
+    font-weight: 500;
+  }
+
+  .details-date {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-sage);
+    font-weight: 500;
+    margin-bottom: var(--space-2);
+  }
+
+  .details-time {
+    font-size: var(--text-lg);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-4);
+  }
+
+  .details-venue {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-1);
+  }
+
+  .details-address {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    margin-bottom: var(--space-4);
+  }
+
+  .details-text {
+    font-size: var(--text-lg);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-4);
+  }
+
+  .details-map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-sage);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .details-map-link:hover {
+    color: var(--color-sage-dark);
+  }
+
+  .arrow {
+    font-size: var(--text-base);
+  }
+
+  .dresscode-colors {
+    margin-top: var(--space-4);
+  }
+
+  .color-hint {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-3);
+  }
+
+  .color-swatches {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+  }
+
+  .swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-white);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .map-container {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-base);
+  }
+
+  .map-container iframe {
+    display: block;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .details-card {
+      padding: var(--space-6);
+    }
+  }
+</style>

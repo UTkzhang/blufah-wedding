@@ -1,0 +1,204 @@
+---
+import en from '../i18n/en.json';
+import zh from '../i18n/zh.json';
+---
+
+<section class="section section-ivory" id="travel">
+  <div class="container">
+    <header class="section-header" data-animate>
+      <h2 class="section-title">
+        <span data-lang-en>{en.travel.title}</span>
+        <span data-lang-zh style="display: none;">{zh.travel.title}</span>
+      </h2>
+      <p class="section-subtitle">
+        <span data-lang-en>{en.travel.subtitle}</span>
+        <span data-lang-zh style="display: none;">{zh.travel.subtitle}</span>
+      </p>
+      <div class="divider">
+        <span class="divider-icon">&#9992;</span>
+      </div>
+    </header>
+
+    <div class="travel-grid">
+      <!-- Hotels Section -->
+      <div class="travel-section" data-animate>
+        <h3 class="travel-section-title">
+          <span class="travel-icon">&#127976;</span>
+          <span data-lang-en>{en.travel.hotels.title}</span>
+          <span data-lang-zh style="display: none;">{zh.travel.hotels.title}</span>
+        </h3>
+        <div class="hotel-list">
+          {en.travel.hotels.list.map((hotel, index) => (
+            <article class="hotel-card">
+              <h4 class="hotel-name">{hotel.name}</h4>
+              <p class="hotel-address">{hotel.address}</p>
+              <div class="hotel-meta">
+                <span class="hotel-distance">
+                  <span data-lang-en>{hotel.distance}</span>
+                  <span data-lang-zh style="display: none;">{zh.travel.hotels.list[index].distance}</span>
+                </span>
+                <span class="hotel-note">
+                  <span data-lang-en>{hotel.note}</span>
+                  <span data-lang-zh style="display: none;">{zh.travel.hotels.list[index].note}</span>
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <!-- Info Cards -->
+      <div class="travel-info">
+        <div class="info-card" data-animate style="animation-delay: 0.2s;">
+          <span class="info-icon">&#128663;</span>
+          <h4 class="info-title">
+            <span data-lang-en>{en.travel.parking.title}</span>
+            <span data-lang-zh style="display: none;">{zh.travel.parking.title}</span>
+          </h4>
+          <p class="info-text">
+            <span data-lang-en>{en.travel.parking.text}</span>
+            <span data-lang-zh style="display: none;">{zh.travel.parking.text}</span>
+          </p>
+        </div>
+
+        <div class="info-card" data-animate style="animation-delay: 0.3s;">
+          <span class="info-icon">&#9992;</span>
+          <h4 class="info-title">
+            <span data-lang-en>{en.travel.airport.title}</span>
+            <span data-lang-zh style="display: none;">{zh.travel.airport.title}</span>
+          </h4>
+          <p class="info-text">
+            <span data-lang-en>{en.travel.airport.text}</span>
+            <span data-lang-zh style="display: none;">{zh.travel.airport.text}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .travel-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .travel-section-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-6);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .travel-icon {
+    font-size: var(--text-2xl);
+  }
+
+  .hotel-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .hotel-card {
+    background-color: var(--color-white);
+    padding: var(--space-5);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-sm);
+    border-left: 3px solid var(--color-sage);
+  }
+
+  .hotel-name {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-1);
+    font-weight: 500;
+  }
+
+  .hotel-address {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    margin-bottom: var(--space-2);
+  }
+
+  .hotel-meta {
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+  }
+
+  .hotel-distance {
+    color: var(--color-sage);
+    font-weight: 500;
+  }
+
+  .hotel-note {
+    color: var(--color-gray);
+    font-style: italic;
+  }
+
+  .travel-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .info-card {
+    background-color: var(--color-white);
+    padding: var(--space-6);
+    border-radius: var(--radius-base);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+  }
+
+  .info-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-3);
+    display: block;
+  }
+
+  .info-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--color-charcoal);
+    margin-bottom: var(--space-2);
+    font-weight: 500;
+  }
+
+  .info-text {
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    line-height: 1.6;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .travel-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .travel-info {
+      flex-direction: row;
+    }
+
+    .info-card {
+      flex: 1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .travel-info {
+      flex-direction: column;
+    }
+  }
+</style>

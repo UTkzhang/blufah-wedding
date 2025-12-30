@@ -1,0 +1,16 @@
+{
+  "name": "kevin-sophie-wedding",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Wedding website for Kevin & Sophie - May 30, 2026",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.1.1"
+  }
+}

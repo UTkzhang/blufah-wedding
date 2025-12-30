@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Kevin & Sophie | May 30, 2026" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Wedding website for Kevin Zhang & Sophie Su - May 30, 2026 at Spencer's at the Waterfront, Burlington" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  </head>
+  <body>
+    <slot />
+
+    <!-- Language Toggle & Animation Script -->
+    <script>
+      // Language handling
+      const LANGUAGE_KEY = 'wedding-lang';
+
+      function getStoredLanguage(): 'en' | 'zh' {
+        const stored = localStorage.getItem(LANGUAGE_KEY);
+        if (stored === 'en' || stored === 'zh') return stored;
+        return 'en';
+      }
+
+      function setLanguage(lang: 'en' | 'zh') {
+        localStorage.setItem(LANGUAGE_KEY, lang);
+        document.documentElement.setAttribute('data-lang', lang);
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+
+        // Toggle visibility of language-specific content
+        document.querySelectorAll('[data-lang-en]').forEach(el => {
+          (el as HTMLElement).style.display = lang === 'en' ? '' : 'none';
+        });
+        document.querySelectorAll('[data-lang-zh]').forEach(el => {
+          (el as HTMLElement).style.display = lang === 'zh' ? '' : 'none';
+        });
+
+        // Update toggle button state
+        document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+          }
+        });
+      }
+
+      // Initialize on page load
+      document.addEventListener('DOMContentLoaded', () => {
+        const lang = getStoredLanguage();
+        setLanguage(lang);
+
+        // Set up toggle buttons
+        document.querySelectorAll('.lang-toggle-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const newLang = btn.getAttribute('data-lang') as 'en' | 'zh';
+            setLanguage(newLang);
+          });
+        });
+      });
+
+      // Scroll animation observer
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('[data-animate]').forEach(el => {
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
+</html>
