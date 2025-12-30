@@ -31,29 +31,21 @@ const base = import.meta.env.BASE_URL;
             data-animate={index % 2 === 0 ? "left" : "right"}
           >
             <div class="timeline-photo">
-              {index === 1 ? (
-                <div class="photo-placeholder photo-minecraft">
-                  <span class="photo-icon">⛏</span>
-                  <span class="photo-text">
-                    <span data-lang-en>Add mc1.jpg</span>
-                    <span data-lang-zh style="display: none;">添加 mc1.jpg</span>
-                  </span>
+              {index === 0 ? (
+                <div class="photo-actual">
+                  <img src={`${base}/images/first.jpg`} alt="Our first date" />
                 </div>
-              ) : index === 3 ? (
-                <div class="photo-placeholder photo-future">
-                  <span class="photo-icon">✦</span>
-                  <span class="photo-text">
-                    <span data-lang-en>Coming Soon</span>
-                    <span data-lang-zh style="display: none;">敬请期待</span>
-                  </span>
+              ) : index === 1 ? (
+                <div class="photo-actual">
+                  <img src={`${base}/images/minecraft.PNG`} alt="Our Minecraft adventures" />
+                </div>
+              ) : index === 2 ? (
+                <div class="photo-actual photo-proposal">
+                  <img src={`${base}/images/proposal.jpg`} alt="The proposal" />
                 </div>
               ) : (
-                <div class="photo-placeholder">
-                  <span class="photo-icon">□</span>
-                  <span class="photo-text">
-                    <span data-lang-en>Photo {index + 1}</span>
-                    <span data-lang-zh style="display: none;">照片 {index + 1}</span>
-                  </span>
+                <div class="photo-actual photo-love">
+                  <img src={`${base}/images/love.jpeg`} alt="Our future together" />
                 </div>
               )}
             </div>
@@ -63,6 +55,18 @@ const base = import.meta.env.BASE_URL;
             </div>
             <div class="timeline-content">
               <span class="timeline-number">{index + 1}</span>
+              <div class="story-avatar">
+                {item.voice === 'kevin' ? (
+                  <span class="avatar avatar-kevin">K</span>
+                ) : item.voice === 'sophie' ? (
+                  <span class="avatar avatar-sophie">S</span>
+                ) : (
+                  <>
+                    <span class="avatar avatar-kevin">K</span>
+                    <span class="avatar avatar-sophie">S</span>
+                  </>
+                )}
+              </div>
               <h3 class="timeline-title">
                 <span data-lang-en>{item.title}</span>
                 <span data-lang-zh style="display: none;">{zh.story.content[index].title}</span>
@@ -188,6 +192,15 @@ const base = import.meta.env.BASE_URL;
     object-fit: cover;
   }
 
+  .photo-proposal img {
+    transform: scale(1.1);
+  }
+
+  .photo-love img {
+    object-position: right center;
+    transform: scale(1.1);
+  }
+
   /* Minecraft photo styling */
   .photo-minecraft {
     border: 4px solid var(--color-sage);
@@ -266,6 +279,33 @@ const base = import.meta.env.BASE_URL;
     color: var(--color-sage-light);
     opacity: 0.3;
     font-weight: 300;
+  }
+
+  .story-avatar {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--color-white);
+  }
+
+  .avatar-kevin {
+    background-color: var(--color-sage);
+  }
+
+  .avatar-sophie {
+    background-color: #c4a4a4;
   }
 
   .timeline-title {

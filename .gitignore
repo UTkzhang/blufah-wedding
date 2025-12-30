@@ -38,3 +38,6 @@ npm-debug.log*
 
 # Optional eslint cache
 .eslintcache
+
+# Story
+story.txt

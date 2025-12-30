@@ -18,23 +18,27 @@
   },
   "story": {
     "title": "Our Story",
-    "subtitle": "How it all began",
+    "subtitle": "How it all happened",
     "content": [
       {
         "title": "How We Met",
-        "text": "Our journey began... [Your story here]"
+        "text": "We met in the summer of 2022, right at the tail end of COVID. Sophie was interning in Toronto, and I was working full-time at a startup called Parallel Studios. We connected through Coffee Meets Bagel — she was the first and last date I had through the app. Our first date was getting bubble tea and walking to the lake.",
+        "voice": "kevin"
       },
       {
-        "title": "Building Together",
-        "text": "Our shared love of Minecraft brought us even closer. We spent countless nights building cozy homes and villages with friends."
+        "title": "How We Grew",
+        "text": "We fell in love quickly and exchanged promise rings within a month of going official. During my final year of university, we bounced between Vancouver and Toronto to see each other. When we couldn't be together in person, we stayed connected through adventures in Minecraft.",
+        "voice": "sophie"
       },
       {
         "title": "The Proposal",
-        "text": "And then one magical day... [Your story here]"
+        "text": "In November 2024, I proposed to Sophie at the very spot where we had our first date, surrounded by supportive friends. She was surprised, and I had stomach pain from the stress being released after she said \"YES\".",
+        "voice": "kevin"
       },
       {
-        "title": "The Wedding",
-        "text": "Now we invite you to celebrate with us as we begin our forever together."
+        "title": "What's Next",
+        "text": "Our wedding is in May 2026, and we're so excited to begin this new chapter as a married couple. We want to experience life to the fullest, build a (real-life) house, and enjoy retirement on some Muskoka chairs together.",
+        "voice": "both"
       }
     ]
   },
