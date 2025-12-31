@@ -48,8 +48,14 @@ import zh from '../i18n/zh.json';
             </p>
             <p class="gift-email">{en.gifts.options.etransferEmail}</p>
             <button class="copy-btn" data-email={en.gifts.options.etransferEmail}>
-              <span class="copy-text">Copy</span>
-              <span class="copied-text" style="display: none;">Copied!</span>
+              <span class="copy-text">
+                <span data-lang-en>Copy</span>
+                <span data-lang-zh style="display: none;">复制</span>
+              </span>
+              <span class="copied-text" style="display: none;">
+                <span data-lang-en>Copied!</span>
+                <span data-lang-zh style="display: none;">已复制!</span>
+              </span>
             </button>
           </div>
         </div>

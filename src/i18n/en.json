@@ -135,7 +135,7 @@
       "attending": "Will you be attending?",
       "yes": "Joyfully Accept",
       "no": "Regretfully Decline",
-      "guests": "Number of Guests",
+      "guests": "Number of Guests (including yourself)",
       "meal": "Meal Preference",
       "mealOptions": [
         "No Preference",

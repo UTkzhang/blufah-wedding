@@ -35,8 +35,22 @@ const base = import.meta.env.BASE_URL;
 
           <!-- Right Side - Form Container -->
           <div class="rsvp-form-container" data-animate="right">
+            <!-- RSVP Closed Message -->
+            <div id="closed-step" class="form-step hidden">
+              <div class="form-header">
+                <h1 class="form-title">
+                  <span data-lang-en>RSVP Closed</span>
+                  <span data-lang-zh style="display: none;">回复已截止</span>
+                </h1>
+                <p class="form-subtitle">
+                  <span data-lang-en>The RSVP deadline has passed. If you need to make changes, please contact us directly.</span>
+                  <span data-lang-zh style="display: none;">回复截止日期已过。如需更改，请直接与我们联系。</span>
+                </p>
+              </div>
+            </div>
+
             <!-- Step 1: Code Entry -->
-            <div id="code-step" class="form-step">
+            <div id="code-step" class="form-step hidden">
               <div class="form-header">
                 <h1 class="form-title">
                   <span data-lang-en>Enter Your Code</span>
@@ -96,15 +110,17 @@ const base = import.meta.env.BASE_URL;
                   <span id="guest-name"></span>!
                 </h2>
                 <p id="custom-message" class="welcome-message"></p>
+                <p id="last-response" class="last-response hidden">
+                  <span data-lang-en>Last response recorded on </span>
+                  <span data-lang-zh style="display: none;">上次回复记录于 </span>
+                  <span id="last-response-date"></span>
+                </p>
               </div>
 
-              <!-- Google Form (iframe submit target for redirect-free submission) -->
-              <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
-              <form class="rsvp-form" id="rsvp-form" target="hidden_iframe" method="POST">
+              <form class="rsvp-form" id="rsvp-form">
                 <!-- Hidden fields for code and name -->
-                <input type="hidden" name="entry.PLACEHOLDER_CODE" id="form-code" />
-                <input type="hidden" name="entry.PLACEHOLDER_NAME" id="form-name" />
+                <input type="hidden" name="code" id="form-code" />
+                <input type="hidden" name="name" id="form-name" />
 
                 <!-- Attendance Selection -->
                 <div class="form-section">
@@ -114,7 +130,7 @@ const base = import.meta.env.BASE_URL;
                   </p>
                   <div class="attendance-cards">
                     <label class="attendance-card">
-                      <input type="radio" name="entry.PLACEHOLDER_ATTENDING" value="Yes" required />
+                      <input type="radio" name="attending" value="Yes" required />
                       <span class="card-content">
                         <span class="card-icon">✓</span>
                         <span class="card-text">
@@ -124,7 +140,7 @@ const base = import.meta.env.BASE_URL;
                       </span>
                     </label>
                     <label class="attendance-card">
-                      <input type="radio" name="entry.PLACEHOLDER_ATTENDING" value="No" />
+                      <input type="radio" name="attending" value="No" />
                       <span class="card-content">
                         <span class="card-icon">✗</span>
                         <span class="card-text">
@@ -139,7 +155,7 @@ const base = import.meta.env.BASE_URL;
                 <!-- Guest Count (dynamically populated) -->
                 <div class="form-row">
                   <div class="form-field form-field-select">
-                    <select id="guest-count" name="entry.PLACEHOLDER_GUESTS">
+                    <select id="guest-count" name="guests" required>
                       <!-- Options populated by JS based on max_guests -->
                     </select>
                     <label for="guest-count">
@@ -163,7 +179,7 @@ const base = import.meta.env.BASE_URL;
                     </p>
                   </div>
                   <div class="form-field">
-                    <input type="text" id="dietary" name="entry.PLACEHOLDER_DIETARY" placeholder=" " />
+                    <input type="text" id="dietary" name="dietary" placeholder=" " />
                     <label for="dietary">
                       <span data-lang-en>{en.rsvp.form.dietary}</span>
                       <span data-lang-zh style="display: none;">{zh.rsvp.form.dietary}</span>
@@ -174,13 +190,19 @@ const base = import.meta.env.BASE_URL;
 
                 <!-- Message Field -->
                 <div class="form-field form-field-textarea">
-                  <textarea id="message" name="entry.PLACEHOLDER_MESSAGE" rows="3" placeholder=" "></textarea>
+                  <textarea id="message" name="message" rows="3" placeholder=" "></textarea>
                   <label for="message">
                     <span data-lang-en>{en.rsvp.form.message}</span>
                     <span data-lang-zh style="display: none;">{zh.rsvp.form.message}</span>
                   </label>
                   <span class="field-line"></span>
                 </div>
+
+                <!-- Error Message -->
+                <p id="form-error" class="error-message hidden">
+                  <span data-lang-en>Please fill in all required fields.</span>
+                  <span data-lang-zh style="display: none;">请填写所有必填项。</span>
+                </p>
 
                 <!-- Submit Button -->
                 <div class="form-submit">
@@ -393,6 +415,13 @@ const base = import.meta.env.BASE_URL;
     font-style: italic;
     color: var(--color-sage-dark);
     margin-bottom: 0;
+  }
+
+  .last-response {
+    margin-top: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-gray);
+    opacity: 0.7;
   }
 
   /* Thank You */
@@ -706,24 +735,30 @@ const base = import.meta.env.BASE_URL;
   }
 </style>
 
-<script define:vars={{
-  appsScriptUrl: import.meta.env.PUBLIC_APPS_SCRIPT_URL || '',
-  googleFormUrl: import.meta.env.PUBLIC_GOOGLE_FORM_URL || ''
-}}>
+<script>
   // ============================================================================
-  // CONFIGURATION - Set via environment variables
-  // See .env.example for setup guide
+  // CONFIGURATION
   // ============================================================================
-  const APPS_SCRIPT_URL = appsScriptUrl;
-  const GOOGLE_FORM_URL = googleFormUrl;
+  const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzYPoKRcDDyNhPU8PAITIF-jNxveBeRnv_KkIkPoMRCrHojA5sRmdMcFjtSdrVqmZuN/exec';
+  const RSVP_DEADLINE = new Date('2026-02-28T23:59:59');
 
-  // Demo mode - enabled when env vars not set
-  const DEMO_MODE = !APPS_SCRIPT_URL;
+  function isRsvpClosed(): boolean {
+    return new Date() > RSVP_DEADLINE;
+  }
+
+  interface ExistingResponse {
+    timestamp: string;
+    attending: string;
+    guests: string;
+    dietary: string;
+    message: string;
+  }
 
   interface GuestData {
     name: string;
     max_guests: number;
     message: string;
+    existing?: ExistingResponse;
   }
 
   let currentCode: string = '';
@@ -748,26 +783,15 @@ const base = import.meta.env.BASE_URL;
     if (validateBtn) validateBtn.disabled = true;
 
     try {
+      // Call Apps Script API with client ID for rate limiting
+      const clientId = localStorage.getItem('rsvp_client_id') || crypto.randomUUID();
+      localStorage.setItem('rsvp_client_id', clientId);
+      const response = await fetch(`${APPS_SCRIPT_URL}?code=${encodeURIComponent(code)}&clientId=${encodeURIComponent(clientId)}`);
+      const data = await response.json();
+
       let guest: GuestData | null = null;
-
-      if (DEMO_MODE) {
-        // Demo mode - use sample data
-        const demoGuests: Record<string, GuestData> = {
-          'DEMO123': { name: 'Demo Guest', max_guests: 2, message: 'Welcome to our celebration!' },
-          'VIP2026': { name: 'Special Guest', max_guests: 4, message: 'We are honored to have you join our wedding party!' },
-          'MC2026': { name: 'MC Guest', max_guests: 1, message: 'We would be honored if you would MC our wedding!' }
-        };
-        guest = demoGuests[code] || null;
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 500));
-      } else {
-        // Call Apps Script API
-        const response = await fetch(`${APPS_SCRIPT_URL}?code=${encodeURIComponent(code)}`);
-        const data = await response.json();
-
-        if (data.success && data.guest) {
-          guest = data.guest;
-        }
+      if (data.success && data.guest) {
+        guest = data.guest;
       }
 
       loadingEl?.classList.add('hidden');
@@ -804,6 +828,8 @@ const base = import.meta.env.BASE_URL;
     const customMessageEl = document.getElementById('custom-message');
     const formCodeEl = document.getElementById('form-code') as HTMLInputElement;
     const formNameEl = document.getElementById('form-name') as HTMLInputElement;
+    const lastResponseEl = document.getElementById('last-response');
+    const lastResponseDateEl = document.getElementById('last-response-date');
 
     if (guestNameEl) guestNameEl.textContent = guest.name;
     if (customMessageEl) customMessageEl.textContent = guest.message;
@@ -820,10 +846,50 @@ const base = import.meta.env.BASE_URL;
       guestCountSelect.appendChild(option);
     }
 
-    // Set form action
-    if (form && !DEMO_MODE) {
-      form.action = GOOGLE_FORM_URL;
+    // Prepopulate with existing response if available
+    if (guest.existing) {
+      const existing = guest.existing;
+
+      // Show last response date
+      if (lastResponseEl && lastResponseDateEl && existing.timestamp) {
+        const date = new Date(existing.timestamp);
+        lastResponseDateEl.textContent = date.toLocaleDateString();
+        lastResponseEl.classList.remove('hidden');
+      }
+
+      // Prepopulate attending
+      if (existing.attending) {
+        const attendingRadio = form?.querySelector(`input[name="attending"][value="${existing.attending}"]`) as HTMLInputElement;
+        if (attendingRadio) attendingRadio.checked = true;
+      }
+
+      // Prepopulate guests
+      if (existing.guests && guestCountSelect) {
+        guestCountSelect.value = existing.guests;
+      }
+
+      // Prepopulate dietary
+      const dietaryInput = document.getElementById('dietary') as HTMLInputElement;
+      if (dietaryInput && existing.dietary) {
+        dietaryInput.value = existing.dietary;
+      }
+
+      // Prepopulate message
+      const messageInput = document.getElementById('message') as HTMLTextAreaElement;
+      if (messageInput && existing.message) {
+        messageInput.value = existing.message;
+      }
+
+      // Change button text to "Update RSVP"
+      const submitBtn = form?.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        const enSpan = submitBtn.querySelector('[data-lang-en]');
+        const zhSpan = submitBtn.querySelector('[data-lang-zh]');
+        if (enSpan) enSpan.textContent = 'Update RSVP';
+        if (zhSpan) zhSpan.textContent = '更新回复';
+      }
     }
+
   }
 
   // Show thank you after submission
@@ -837,6 +903,19 @@ const base = import.meta.env.BASE_URL;
 
   // Initialize
   document.addEventListener('DOMContentLoaded', () => {
+    const closedStep = document.getElementById('closed-step');
+    const codeStep = document.getElementById('code-step');
+
+    // Check if RSVP is closed
+    if (isRsvpClosed()) {
+      closedStep?.classList.remove('hidden');
+      codeStep?.classList.add('hidden');
+      return; // Don't initialize form handlers
+    } else {
+      closedStep?.classList.add('hidden');
+      codeStep?.classList.remove('hidden');
+    }
+
     // Validate button click
     const validateBtn = document.getElementById('validate-btn');
     validateBtn?.addEventListener('click', () => validateCode());
@@ -850,23 +929,43 @@ const base = import.meta.env.BASE_URL;
       }
     });
 
-    // Form submission
+    // Form submission - submit via fetch POST
     const form = document.getElementById('rsvp-form') as HTMLFormElement;
-    form?.addEventListener('submit', (e) => {
-      // If demo mode, prevent submission and show thank you
-      if (DEMO_MODE) {
-        e.preventDefault();
-        showThankYou();
+    const formError = document.getElementById('form-error');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formError?.classList.add('hidden');
+
+      // Validate required fields
+      const attending = form.querySelector('input[name="attending"]:checked');
+      const guests = (form.querySelector('#guest-count') as HTMLSelectElement)?.value;
+
+      if (!attending || !guests) {
+        formError?.classList.remove('hidden');
         return;
       }
 
-      // Otherwise, let form submit to iframe and show thank you
-      setTimeout(showThankYou, 500);
-    });
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      formData.forEach((value, key) => params.append(key, value.toString()));
 
-    // Log demo mode status
-    if (DEMO_MODE) {
-      console.log('RSVP is in DEMO MODE. Test codes: DEMO123, VIP2026, MC2026');
-    }
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: params
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showThankYou();
+        } else {
+          formError?.classList.remove('hidden');
+        }
+      } catch (error) {
+        console.error('Submission error:', error);
+        formError?.classList.remove('hidden');
+      }
+    });
   });
 </script>
