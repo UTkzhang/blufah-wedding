@@ -24,6 +24,9 @@ const base = import.meta.env.BASE_URL;
     </section>
 
     <section class="story-timeline section">
+      <div class="ship-backdrop">
+        <img src={`${base}/images/shipgraphic.png`} alt="" aria-hidden="true" />
+      </div>
       <div class="container">
         {en.story.content.map((item, index) => (
           <article
@@ -121,7 +124,30 @@ const base = import.meta.env.BASE_URL;
   }
 
   .story-timeline {
+    position: relative;
     padding: var(--space-16) 0;
+    overflow: hidden;
+  }
+
+  .ship-backdrop {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0.08;
+    z-index: 0;
+  }
+
+  .ship-backdrop img {
+    height: 100%;
+    min-height: 300px;
+    width: auto;
+  }
+
+  .story-timeline .container {
+    position: relative;
+    z-index: 1;
   }
 
   .timeline-item {
@@ -336,6 +362,10 @@ const base = import.meta.env.BASE_URL;
 
   /* Responsive */
   @media (max-width: 900px) {
+    .ship-backdrop {
+      opacity: 0.05;
+    }
+
     .timeline-item {
       grid-template-columns: auto 1fr;
       gap: var(--space-6);
@@ -355,6 +385,10 @@ const base = import.meta.env.BASE_URL;
   }
 
   @media (max-width: 600px) {
+    .ship-backdrop {
+      display: none;
+    }
+
     .page-title {
       font-size: var(--text-4xl);
     }
